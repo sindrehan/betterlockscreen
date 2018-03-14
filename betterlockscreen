@@ -35,22 +35,23 @@ prelock() {
 
 lock() {
 	#$1 image path
-	letterEnteredColor=d23c3dff
-	letterRemovedColor=d23c3dff
+	letterEnteredColor=00ff00ff
+	letterRemovedColor=ff0000ff
 	passwordCorrect=00000000
 	passwordIncorrect=d23c3dff
 	background=00000000
 	foreground=ffffffff
-	i3lock \
-		-t -i "$1" \
-		--timepos="x-90:h-ch+30" \
+	$HOME/.i3lock-color/x86_64-pc-linux-gnu/i3lock \
+		-n -i "$1" \
+		--timepos="x-60:h-ch+40" \
 		--datepos="tx+24:ty+25" \
-		--clock --datestr "Type password to unlock..." \
+                --indicator \
+		--clock --datestr "" \
 		--insidecolor=$background --ringcolor=$foreground --line-uses-inside \
 		--keyhlcolor=$letterEnteredColor --bshlcolor=$letterRemovedColor --separatorcolor=$background \
 		--insidevercolor=$passwordCorrect --insidewrongcolor=$passwordIncorrect \
 		--ringvercolor=$foreground --ringwrongcolor=$foreground --indpos="x+280:h-70" \
-		--radius=20 --ring-width=4 --veriftext="" --wrongtext="" \
+		--radius=30 --ring-width=4 --veriftext="" --wrongtext="" \
 		--textcolor="$foreground" --timecolor="$foreground" --datecolor="$foreground" \
 		--force-clock
 }
@@ -354,18 +355,21 @@ case "$1" in
 		echo "Caching images for faster screen locking"
 		# resized
 		convert "$resized" -draw "fill black fill-opacity 0.4 $rectangles" "$l_resized"
+                convert "$l_resized" "lock_icon.png" -gravity center -composite "$l_resized"
 
 		# dim
 		convert "$dim" -draw "fill black fill-opacity 0.4 $rectangles" "$l_dim"
+                convert "$l_dim" "lock_icon.png" -gravity center -composite "$l_dim"
 
 		# blur
 		convert "$blur" -draw "fill black fill-opacity 0.4 $rectangles" "$l_blur"
+                convert "$l_blur" "lock_icon.png" -gravity center -composite "$l_blur"
 
-		# blur
+		# dimblur
 		convert "$dimblur" -draw "fill black fill-opacity 0.4 $rectangles" "$l_dimblur"
+                convert "$l_dimblur" "lock_icon.png" -gravity center -composite "$l_dimblur"
 
 		echo
 		echo "All required changes have been applied"
 		;;
 esac
-
